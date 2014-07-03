@@ -1,3 +1,5 @@
+Original sources hosted at https://bitbucket.org/SpartanJ/efsw
+
 Entropia File System Watcher
 ============================
 **efsw** is a C++ cross-platform file system watcher and notifier.
@@ -86,19 +88,13 @@ None :)
 
 **Compiling**
 ------------
-To generate project files you will need to [download and install](http://industriousone.com/premake/download) [Premake](http://industriousone.com/what-premake)
+```
+cmake /path/to/efsw/sources
+make
+make install
+```
 
-Then you can generate the project for your platform just going to the project directory where the premake4.lua file is located and then execute:
-
-`premake4 gmake` to generate project Makefiles, then `cd make/*YOURPLATFORM*/`, and finally `make` or `make config=release` ( it will generate the static lib, the shared lib and the test application ).
-
-or 
-
-`premake4 vs2010` to generate Visual Studio 2010 project.
-
-or
-
-`premake4 xcode4` to generate Xcode 4 project.
+By default, efsw gets installed in /usr/local. You can change the install directory by using ```-DCMAKE_INSTALL_PREFIX```. If you wish to generate efsw as a static library, use ```-DSTATIC_LIB=ON```.
 
 
 **Platform limitations and clarifications**
