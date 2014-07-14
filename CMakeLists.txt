@@ -45,7 +45,7 @@ if (WIN32)
 		  src/efsw/platform/win/MutexImpl.cpp
 		  src/efsw/platform/win/SystemImpl.cpp
 		  src/efsw/platform/win/ThreadImpl.cpp)
-else (WIN32)
+else ()
     list (APPEND SRCS
           src/efsw/platform/posix/FileSystemImpl.cpp
           src/efsw/platform/posix/MutexImpl.cpp
@@ -96,8 +96,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 endif()
 
 if (MSVC)
-	add_definitions(-Wall -Wno-long-long)
-else (MSVC)
+	add_definitions(-Wall)
+else ()
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 endif()
 
@@ -110,6 +110,10 @@ endif()
 if (STATIC_LIB)
 	add_library(efsw STATIC ${SRCS})
 else()
+	if (WIN32)
+		add_library(efswstatic STATIC ${SRCS})
+		set_target_properties(efswstatic PROPERTIES OUTPUT_NAME efsw)
+	endif()
 	add_library(efsw SHARED ${SRCS})
 endif()
 
@@ -120,6 +124,12 @@ elseif (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Haiku") AND NOT WIN32)
 	target_link_libraries(efsw pthread)
 endif()	
 
-install (TARGETS efsw LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+set(LIB_DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
 file (GLOB HDRS "include/efsw/*.h" "include/efsw/*.hpp")
 install (FILES ${HDRS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/efsw)
+install(TARGETS efsw LIBRARY DESTINATION ${LIB_DESTINATION} ARCHIVE DESTINATION ${LIB_DESTINATION} RUNTIME DESTINATION ${LIB_DESTINATION})
+
+if (BUILD_TEST_APP)
+    add_executable(efsw-test src/test/efsw-test.cpp)
+    target_link_libraries(efsw-test efsw)
+endif()
