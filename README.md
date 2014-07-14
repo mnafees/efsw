@@ -96,8 +96,8 @@ make install
 
 By default, efsw gets installed in /usr/local. You can change the install directory by using ```-DCMAKE_INSTALL_PREFIX```. If you wish to generate efsw as a static library, use ```-DSTATIC_LIB=ON```.
 
-****Notes on compiling on Windows:****
---------------------------------------
+**Notes on compiling on Windows:**
+----------------------------------
 We recommend you not to install efsw in "Program Files". We also recommend you to use the NMake Makefiles generator if you are compiling with Visual Studio.
 
 
